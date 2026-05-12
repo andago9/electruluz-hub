@@ -72,11 +72,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Ferretería Electroluz | Materiales eléctricos y energía solar en La Dorada" },
+      { name: "description", content: "Ferretería en La Dorada, Caldas. Materiales eléctricos, construcción, herramientas, iluminación y energía solar. Cotiza por WhatsApp." },
+      { name: "author", content: "Ferretería Electroluz" },
+      { property: "og:title", content: "Ferretería Electroluz — La Dorada, Caldas" },
+      { property: "og:description", content: "Todo para construcción, electricidad y energía solar en un solo lugar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -108,12 +108,21 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1"><Outlet /></main>
+        <Footer />
+        <WhatsAppFloat />
+      </div>
     </QueryClientProvider>
   );
 }
