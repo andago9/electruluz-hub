@@ -75,11 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Ferretería Electroluz | Materiales eléctricos y energía solar en La Dorada" },
       { name: "description", content: "Ferretería en La Dorada, Caldas. Materiales eléctricos, construcción, herramientas, iluminación y energía solar. Cotiza por WhatsApp." },
       { name: "author", content: "Ferretería Electroluz" },
-      { property: "og:title", content: "Ferretería Electroluz — La Dorada, Caldas" },
-      { property: "og:description", content: "Todo para construcción, electricidad y energía solar en un solo lugar." },
+      { property: "og:title", content: "Ferretería Electroluz | Materiales eléctricos y energía solar en La Dorada" },
+      { property: "og:description", content: "Ferretería en La Dorada, Caldas. Materiales eléctricos, construcción, herramientas, iluminación y energía solar. Cotiza por WhatsApp." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Ferretería Electroluz | Materiales eléctricos y energía solar en La Dorada" },
+      { name: "twitter:description", content: "Ferretería en La Dorada, Caldas. Materiales eléctricos, construcción, herramientas, iluminación y energía solar. Cotiza por WhatsApp." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/77a94489-8fc5-4a5b-926c-cb102c30c829/id-preview-95bb8551--8e98f25b-1524-459d-82b2-e7870fd80c15.lovable.app-1778595880069.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/77a94489-8fc5-4a5b-926c-cb102c30c829/id-preview-95bb8551--8e98f25b-1524-459d-82b2-e7870fd80c15.lovable.app-1778595880069.png" },
     ],
     links: [
       {
