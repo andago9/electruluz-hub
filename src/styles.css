@@ -5,106 +5,145 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-brand-yellow: var(--brand-yellow);
-  --color-brand-orange: var(--brand-orange);
-  --color-brand-red: var(--brand-red);
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-dark: var(--brand-dark);
-  --color-whatsapp: var(--whatsapp);
-  --font-display: var(--font-display);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-brand-yellow: var(--brand-yellow);
+	--color-brand-orange: var(--brand-orange);
+	--color-brand-red: var(--brand-red);
+	--color-brand-blue: var(--brand-blue);
+	--color-brand-dark: var(--brand-dark);
+	--color-whatsapp: var(--whatsapp);
+	--font-display: var(--font-display);
 }
 
 :root {
-  --radius: 0.75rem;
-  /* Brand */
-  --brand-yellow: oklch(0.86 0.17 92);   /* #F5C400 */
-  --brand-orange: oklch(0.72 0.18 52);   /* #F47C20 */
-  --brand-red:    oklch(0.58 0.21 28);   /* #D62828 */
-  --brand-blue:   oklch(0.45 0.20 258);  /* #0057B8 */
-  --brand-dark:   oklch(0.18 0.02 250);
-  --whatsapp:     oklch(0.66 0.18 152);
+	--radius: 0.75rem;
+	/* Brand */
+	--brand-yellow: oklch(0.86 0.17 92); /* #F5C400 */
+	--brand-orange: oklch(0.72 0.18 52); /* #F47C20 */
+	--brand-red: oklch(0.58 0.21 28); /* #D62828 */
+	--brand-blue: oklch(0.45 0.2 258); /* #0057B8 */
+	--brand-dark: oklch(0.18 0.02 250);
+	--whatsapp: oklch(0.66 0.18 152);
 
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.18 0.02 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 250);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 250);
-  --primary: var(--brand-blue);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.01 250);
-  --secondary-foreground: var(--brand-dark);
-  --muted: oklch(0.96 0.01 250);
-  --muted-foreground: oklch(0.45 0.02 250);
-  --accent: var(--brand-yellow);
-  --accent-foreground: var(--brand-dark);
-  --destructive: var(--brand-red);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.91 0.01 250);
-  --input: oklch(0.91 0.01 250);
-  --ring: var(--brand-orange);
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.18 0.02 250);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.18 0.02 250);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.18 0.02 250);
+	--primary: var(--brand-blue);
+	--primary-foreground: oklch(0.99 0 0);
+	--secondary: oklch(0.96 0.01 250);
+	--secondary-foreground: var(--brand-dark);
+	--muted: oklch(0.96 0.01 250);
+	--muted-foreground: oklch(0.45 0.02 250);
+	--accent: var(--brand-yellow);
+	--accent-foreground: var(--brand-dark);
+	--destructive: var(--brand-red);
+	--destructive-foreground: oklch(0.99 0 0);
+	--border: oklch(0.91 0.01 250);
+	--input: oklch(0.91 0.01 250);
+	--ring: var(--brand-orange);
 
-  --font-display: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+	--font-display: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 
-  --gradient-hero: linear-gradient(135deg, oklch(0.18 0.02 250) 0%, oklch(0.22 0.05 258) 50%, oklch(0.30 0.10 40) 100%);
-  --gradient-fire: linear-gradient(90deg, var(--brand-yellow), var(--brand-orange), var(--brand-red));
-  --gradient-solar: linear-gradient(135deg, var(--brand-yellow) 0%, var(--brand-orange) 100%);
-  --shadow-glow: 0 20px 60px -20px color-mix(in oklab, var(--brand-orange) 50%, transparent);
-  --shadow-card: 0 8px 30px -12px color-mix(in oklab, var(--brand-dark) 25%, transparent);
+	--gradient-hero: linear-gradient(
+		135deg,
+		oklch(0.18 0.02 250) 0%,
+		oklch(0.22 0.05 258) 50%,
+		oklch(0.3 0.1 40) 100%
+	);
+	--gradient-fire: linear-gradient(
+		90deg,
+		var(--brand-yellow),
+		var(--brand-orange),
+		var(--brand-red)
+	);
+	--gradient-solar: linear-gradient(135deg, var(--brand-yellow) 0%, var(--brand-orange) 100%);
+	--shadow-glow: 0 20px 60px -20px color-mix(in oklab, var(--brand-orange) 50%, transparent);
+	--shadow-card: 0 8px 30px -12px color-mix(in oklab, var(--brand-dark) 25%, transparent);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-display);
-    -webkit-font-smoothing: antialiased;
-  }
-  h1, h2, h3, h4 { letter-spacing: -0.02em; font-weight: 800; }
+	* {
+		border-color: var(--color-border);
+	}
+	html {
+		scroll-behavior: smooth;
+	}
+	body {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+		font-family: var(--font-display);
+		-webkit-font-smoothing: antialiased;
+	}
+	h1,
+	h2,
+	h3,
+	h4 {
+		letter-spacing: -0.02em;
+		font-weight: 800;
+	}
 }
 
 @layer utilities {
-  .bg-gradient-hero { background: var(--gradient-hero); }
-  .bg-gradient-fire { background: var(--gradient-fire); }
-  .bg-gradient-solar { background: var(--gradient-solar); }
-  .text-gradient-fire {
-    background: var(--gradient-fire);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .shadow-glow { box-shadow: var(--shadow-glow); }
-  .shadow-card { box-shadow: var(--shadow-card); }
+	.bg-gradient-hero {
+		background: var(--gradient-hero);
+	}
+	.bg-gradient-fire {
+		background: var(--gradient-fire);
+	}
+	.bg-gradient-solar {
+		background: var(--gradient-solar);
+	}
+	.text-gradient-fire {
+		background: var(--gradient-fire);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+	.shadow-glow {
+		box-shadow: var(--shadow-glow);
+	}
+	.shadow-card {
+		box-shadow: var(--shadow-card);
+	}
 }
 
 @keyframes float-pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in oklab, var(--whatsapp) 60%, transparent); }
-  50% { transform: scale(1.05); box-shadow: 0 0 0 16px color-mix(in oklab, var(--whatsapp) 0%, transparent); }
+	0%,
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 color-mix(in oklab, var(--whatsapp) 60%, transparent);
+	}
+	50% {
+		transform: scale(1.05);
+		box-shadow: 0 0 0 16px color-mix(in oklab, var(--whatsapp) 0%, transparent);
+	}
 }
-.animate-float-pulse { animation: float-pulse 2.4s ease-in-out infinite; }
+.animate-float-pulse {
+	animation: float-pulse 2.4s ease-in-out infinite;
+}
