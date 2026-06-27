@@ -37,6 +37,7 @@ const routes = [
 	{ path: "/nosotros", priority: "0.8", changefreq: "monthly" },
 	{ path: "/productos", priority: "0.9", changefreq: "weekly" },
 	{ path: "/energia-solar", priority: "0.9", changefreq: "monthly" },
+	{ path: "/blog", priority: "0.7", changefreq: "weekly" },
 	{ path: "/contacto", priority: "0.8", changefreq: "monthly" },
 ];
 

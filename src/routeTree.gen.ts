@@ -14,6 +14,11 @@ import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as EnergiaSolarRouteImport } from './routes/energia-solar'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KeystaticIndexRouteImport } from './routes/keystatic.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as KeystaticSplatRouteImport } from './routes/keystatic.$'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ApiKeystaticSplatRouteImport } from './routes/api.keystatic.$'
 
 const ProductosRoute = ProductosRouteImport.update({
   id: '/productos',
@@ -40,6 +45,31 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KeystaticIndexRoute = KeystaticIndexRouteImport.update({
+  id: '/keystatic/',
+  path: '/keystatic/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeystaticSplatRoute = KeystaticSplatRouteImport.update({
+  id: '/keystatic/$',
+  path: '/keystatic/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiKeystaticSplatRoute = ApiKeystaticSplatRouteImport.update({
+  id: '/api/keystatic/$',
+  path: '/api/keystatic/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +77,11 @@ export interface FileRoutesByFullPath {
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/keystatic/$': typeof KeystaticSplatRoute
+  '/blog/': typeof BlogIndexRoute
+  '/keystatic/': typeof KeystaticIndexRoute
+  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +89,11 @@ export interface FileRoutesByTo {
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/keystatic/$': typeof KeystaticSplatRoute
+  '/blog': typeof BlogIndexRoute
+  '/keystatic': typeof KeystaticIndexRoute
+  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +102,37 @@ export interface FileRoutesById {
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/keystatic/$': typeof KeystaticSplatRoute
+  '/blog/': typeof BlogIndexRoute
+  '/keystatic/': typeof KeystaticIndexRoute
+  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contacto' | '/energia-solar' | '/nosotros' | '/productos'
+  fullPaths:
+    | '/'
+    | '/contacto'
+    | '/energia-solar'
+    | '/nosotros'
+    | '/productos'
+    | '/blog/$slug'
+    | '/keystatic/$'
+    | '/blog/'
+    | '/keystatic/'
+    | '/api/keystatic/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contacto' | '/energia-solar' | '/nosotros' | '/productos'
+  to:
+    | '/'
+    | '/contacto'
+    | '/energia-solar'
+    | '/nosotros'
+    | '/productos'
+    | '/blog/$slug'
+    | '/keystatic/$'
+    | '/blog'
+    | '/keystatic'
+    | '/api/keystatic/$'
   id:
     | '__root__'
     | '/'
@@ -75,6 +140,11 @@ export interface FileRouteTypes {
     | '/energia-solar'
     | '/nosotros'
     | '/productos'
+    | '/blog/$slug'
+    | '/keystatic/$'
+    | '/blog/'
+    | '/keystatic/'
+    | '/api/keystatic/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +153,11 @@ export interface RootRouteChildren {
   EnergiaSolarRoute: typeof EnergiaSolarRoute
   NosotrosRoute: typeof NosotrosRoute
   ProductosRoute: typeof ProductosRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  KeystaticSplatRoute: typeof KeystaticSplatRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  KeystaticIndexRoute: typeof KeystaticIndexRoute
+  ApiKeystaticSplatRoute: typeof ApiKeystaticSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +197,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/keystatic/': {
+      id: '/keystatic/'
+      path: '/keystatic'
+      fullPath: '/keystatic/'
+      preLoaderRoute: typeof KeystaticIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keystatic/$': {
+      id: '/keystatic/$'
+      path: '/keystatic/$'
+      fullPath: '/keystatic/$'
+      preLoaderRoute: typeof KeystaticSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/keystatic/$': {
+      id: '/api/keystatic/$'
+      path: '/api/keystatic/$'
+      fullPath: '/api/keystatic/$'
+      preLoaderRoute: typeof ApiKeystaticSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,6 +241,11 @@ const rootRouteChildren: RootRouteChildren = {
   EnergiaSolarRoute: EnergiaSolarRoute,
   NosotrosRoute: NosotrosRoute,
   ProductosRoute: ProductosRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  KeystaticSplatRoute: KeystaticSplatRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  KeystaticIndexRoute: KeystaticIndexRoute,
+  ApiKeystaticSplatRoute: ApiKeystaticSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

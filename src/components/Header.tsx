@@ -9,6 +9,7 @@ const nav = [
 	{ to: "/nosotros", label: "Nosotros" },
 	{ to: "/productos", label: "Productos" },
 	{ to: "/energia-solar", label: "Energía Solar" },
+	{ to: "/blog", label: "Blog" },
 	{ to: "/contacto", label: "Contacto" },
 ];
 
