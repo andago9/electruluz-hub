@@ -1,0 +1,5 @@
+# Carpeta de imágenes subidas: servir archivos, NUNCA ejecutar código.
+php_flag engine off
+<FilesMatch "\.(php|phtml|phar|php[0-9]|pl|py|cgi|asp|sh)$">
+  Require all denied
+</FilesMatch>

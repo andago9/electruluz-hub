@@ -52,6 +52,13 @@ export default defineConfig(({ mode }) => {
 		server: {
 			host: true,
 			port: 3000,
+			// En dev el SPA lo sirve Vite (Node), que no ejecuta PHP. Redirigimos las
+			// llamadas al backend a un `php -S` en paralelo:
+			//   C:\xampp\php\php.exe -S 127.0.0.1:8787 -t public
+			proxy: {
+				"/api": { target: "http://127.0.0.1:8787", changeOrigin: true },
+				"/uploads": { target: "http://127.0.0.1:8787", changeOrigin: true },
+			},
 		},
 	};
 });

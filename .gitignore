@@ -28,5 +28,15 @@ dist-ssr
 *.sln
 *.sw?
 
-# Public
-public
+# Public: versionar el código del backend PHP, ignorar los datos runtime
+public/*
+!public/api/
+!public/blog.php
+!public/content/
+!public/uploads/
+# Datos generados en el servidor (NO versionar)
+public/content/posts/
+public/content/index.json
+public/content/.login-throttle.json
+public/uploads/blog/*
+!public/uploads/blog/.htaccess

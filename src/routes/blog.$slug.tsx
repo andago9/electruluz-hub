@@ -1,25 +1,24 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { ArrowLeft, CalendarDays, LoaderCircle } from "lucide-react";
 import { MarkdocContent } from "@/components/MarkdocContent";
 import { getPostBySlug, withBase } from "@/lib/blog";
 import { buildPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
-	head: ({ params }) => {
-		const post = getPostBySlug(params.slug);
-		return buildPageHead({
-			title: post ? `${post.title} — Blog Electroluz` : "Artículo — Blog Electroluz",
-			description:
-				post?.excerpt || "Artículo del blog de Ferretería Electroluz, La Dorada, Caldas.",
+	ssr: false,
+	// El SEO real de cada post lo genera blog.php en el servidor (producción).
+	// Este head es un respaldo genérico para la navegación en el cliente.
+	head: ({ params }) =>
+		buildPageHead({
+			title: "Artículo — Blog Electroluz",
+			description: "Artículo del blog de Ferretería Electroluz, La Dorada, Caldas.",
 			path: `/blog/${params.slug}`,
-			image: post?.coverImage ?? undefined,
 			breadcrumbs: [
 				{ name: "Inicio", path: "/" },
 				{ name: "Blog", path: "/blog" },
-				{ name: post?.title ?? "Artículo", path: `/blog/${params.slug}` },
 			],
-		});
-	},
+		}),
 	component: BlogPost,
 });
 
@@ -32,8 +31,20 @@ function formatDate(value: string | null): string {
 
 function BlogPost() {
 	const { slug } = Route.useParams();
-	const post = getPostBySlug(slug);
+	const query = useQuery({
+		queryKey: ["blog-post", slug],
+		queryFn: () => getPostBySlug(slug),
+	});
 
+	if (query.isLoading) {
+		return (
+			<section className="grid min-h-[50vh] place-items-center text-muted-foreground">
+				<LoaderCircle className="size-6 animate-spin" />
+			</section>
+		);
+	}
+
+	const post = query.data;
 	if (!post) {
 		return (
 			<section className="py-24">

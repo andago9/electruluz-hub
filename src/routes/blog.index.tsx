@@ -1,9 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CalendarDays } from "lucide-react";
+import { ArrowRight, CalendarDays, LoaderCircle } from "lucide-react";
 import { getAllPosts, withBase } from "@/lib/blog";
 import { buildPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/")({
+	ssr: false,
 	head: () =>
 		buildPageHead({
 			title: "Blog — Ferretería Electroluz",
@@ -26,7 +28,8 @@ function formatDate(value: string | null): string {
 }
 
 function BlogIndex() {
-	const posts = getAllPosts();
+	const query = useQuery({ queryKey: ["blog-posts"], queryFn: getAllPosts });
+	const posts = query.data ?? [];
 
 	return (
 		<>
@@ -49,7 +52,11 @@ function BlogIndex() {
 
 			<section className="py-20">
 				<div className="mx-auto max-w-7xl px-4 lg:px-8">
-					{posts.length === 0 ? (
+					{query.isLoading ? (
+						<div className="grid place-items-center py-16 text-muted-foreground">
+							<LoaderCircle className="size-6 animate-spin" />
+						</div>
+					) : posts.length === 0 ? (
 						<div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center">
 							<h2 className="text-xl font-bold">Todavía no hay artículos</h2>
 							<p className="mt-2 text-muted-foreground">

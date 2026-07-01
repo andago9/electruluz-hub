@@ -12,7 +12,7 @@ for (const dir of [".build", join("dist", "server")]) {
 }
 
 function loadEnvValue(key) {
-	for (const file of [".env.production.local", ".env.production"]) {
+	for (const file of [".env.local", ".env.production"]) {
 		try {
 			const env = readFileSync(join(root, file), "utf8");
 			const match = env.match(new RegExp(`^${key}=(.+)$`, "m"));
@@ -57,13 +57,26 @@ function toAbsoluteUrl(path) {
 	return `${siteUrl}${pathname}`.replace(/([^:]\/)\/+/g, "$1");
 }
 
-const htaccess = `<IfModule mod_rewrite.c>
+const htaccess = `# ============================================================
+#  Ferretería Electroluz — enrutado del sitio (SPA + blog PHP)
+# ============================================================
+
+# Bloquear acceso directo a los archivos .ht*
+<FilesMatch "^\\.ht">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase ${rewriteBase}
 
-  # Nunca reescribir assets estáticos
-  RewriteRule ^assets/ - [L]
-  RewriteCond %{REQUEST_URI} \\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff2?|map|xml|txt)$ [NC]
+  # Blog: render SEO server-side vía PHP (/blog y /blog/:slug)
+  RewriteRule ^blog/?$ blog.php [L]
+  RewriteRule ^blog/[a-z0-9-]+/?$ blog.php [L]
+
+  # Servir directo assets, backend PHP e imágenes subidas
+  RewriteRule ^(assets|api|uploads)/ - [L]
+  RewriteCond %{REQUEST_URI} \\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|avif|woff2?|map|xml|txt)$ [NC]
   RewriteRule ^ - [L]
 
   # Servir archivos y carpetas existentes
@@ -71,7 +84,7 @@ const htaccess = `<IfModule mod_rewrite.c>
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # /nosotros → /nosotros/
+  # /nosotros → /nosotros/ (solo si existe la carpeta con index.html)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !/$
@@ -113,9 +126,10 @@ writeFileSync(join(root, "dist", "sitemap.xml"), sitemap, "utf8");
 writeFileSync(join(root, "dist", "robots.txt"), robots, "utf8");
 
 console.log(`Build listo (base: ${rewriteBase})`);
+console.log("Blog: /blog y /blog/:slug los sirve blog.php (SEO). Panel del editor en /admin.");
 if (siteUrl) {
 	console.log(`SEO: sitemap y robots generados para ${siteUrl}`);
 } else {
 	console.log("SEO: configura VITE_SITE_URL en .env.production para URLs absolutas en sitemap.");
 }
-console.log("Sube el CONTENIDO de dist/ a tu hosting, no la carpeta dist en sí.");
+console.log("Sube el CONTENIDO de dist/ a tu hosting. NO borres content/ ni uploads/ en el servidor.");

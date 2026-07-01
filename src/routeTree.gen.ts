@@ -13,12 +13,10 @@ import { Route as ProductosRouteImport } from './routes/productos'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as EnergiaSolarRouteImport } from './routes/energia-solar'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as KeystaticIndexRouteImport } from './routes/keystatic.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as KeystaticSplatRouteImport } from './routes/keystatic.$'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as ApiKeystaticSplatRouteImport } from './routes/api.keystatic.$'
 
 const ProductosRoute = ProductosRouteImport.update({
   id: '/productos',
@@ -40,14 +38,14 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KeystaticIndexRoute = KeystaticIndexRouteImport.update({
-  id: '/keystatic/',
-  path: '/keystatic/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -55,109 +53,85 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KeystaticSplatRoute = KeystaticSplatRouteImport.update({
-  id: '/keystatic/$',
-  path: '/keystatic/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiKeystaticSplatRoute = ApiKeystaticSplatRouteImport.update({
-  id: '/api/keystatic/$',
-  path: '/api/keystatic/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/keystatic/$': typeof KeystaticSplatRoute
   '/blog/': typeof BlogIndexRoute
-  '/keystatic/': typeof KeystaticIndexRoute
-  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/keystatic/$': typeof KeystaticSplatRoute
   '/blog': typeof BlogIndexRoute
-  '/keystatic': typeof KeystaticIndexRoute
-  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
   '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/keystatic/$': typeof KeystaticSplatRoute
   '/blog/': typeof BlogIndexRoute
-  '/keystatic/': typeof KeystaticIndexRoute
-  '/api/keystatic/$': typeof ApiKeystaticSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contacto'
     | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
-    | '/keystatic/$'
     | '/blog/'
-    | '/keystatic/'
-    | '/api/keystatic/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/contacto'
     | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
-    | '/keystatic/$'
     | '/blog'
-    | '/keystatic'
-    | '/api/keystatic/$'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contacto'
     | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
-    | '/keystatic/$'
     | '/blog/'
-    | '/keystatic/'
-    | '/api/keystatic/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   ContactoRoute: typeof ContactoRoute
   EnergiaSolarRoute: typeof EnergiaSolarRoute
   NosotrosRoute: typeof NosotrosRoute
   ProductosRoute: typeof ProductosRoute
   BlogSlugRoute: typeof BlogSlugRoute
-  KeystaticSplatRoute: typeof KeystaticSplatRoute
   BlogIndexRoute: typeof BlogIndexRoute
-  KeystaticIndexRoute: typeof KeystaticIndexRoute
-  ApiKeystaticSplatRoute: typeof ApiKeystaticSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -190,18 +164,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/keystatic/': {
-      id: '/keystatic/'
-      path: '/keystatic'
-      fullPath: '/keystatic/'
-      preLoaderRoute: typeof KeystaticIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -211,13 +185,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/keystatic/$': {
-      id: '/keystatic/$'
-      path: '/keystatic/$'
-      fullPath: '/keystatic/$'
-      preLoaderRoute: typeof KeystaticSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -225,27 +192,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/keystatic/$': {
-      id: '/api/keystatic/$'
-      path: '/api/keystatic/$'
-      fullPath: '/api/keystatic/$'
-      preLoaderRoute: typeof ApiKeystaticSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   ContactoRoute: ContactoRoute,
   EnergiaSolarRoute: EnergiaSolarRoute,
   NosotrosRoute: NosotrosRoute,
   ProductosRoute: ProductosRoute,
   BlogSlugRoute: BlogSlugRoute,
-  KeystaticSplatRoute: KeystaticSplatRoute,
   BlogIndexRoute: BlogIndexRoute,
-  KeystaticIndexRoute: KeystaticIndexRoute,
-  ApiKeystaticSplatRoute: ApiKeystaticSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
