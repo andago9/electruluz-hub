@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProductosRouteImport } from './routes/productos'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
-import { Route as EnergiaSolarRouteImport } from './routes/energia-solar'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -26,11 +25,6 @@ const ProductosRoute = ProductosRouteImport.update({
 const NosotrosRoute = NosotrosRouteImport.update({
   id: '/nosotros',
   path: '/nosotros',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnergiaSolarRoute = EnergiaSolarRouteImport.update({
-  id: '/energia-solar',
-  path: '/energia-solar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -63,7 +57,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
-  '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -73,7 +66,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
-  '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -84,7 +76,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/contacto': typeof ContactoRoute
-  '/energia-solar': typeof EnergiaSolarRoute
   '/nosotros': typeof NosotrosRoute
   '/productos': typeof ProductosRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -96,7 +87,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contacto'
-    | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
@@ -106,7 +96,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contacto'
-    | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
@@ -116,7 +105,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contacto'
-    | '/energia-solar'
     | '/nosotros'
     | '/productos'
     | '/blog/$slug'
@@ -127,7 +115,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   ContactoRoute: typeof ContactoRoute
-  EnergiaSolarRoute: typeof EnergiaSolarRoute
   NosotrosRoute: typeof NosotrosRoute
   ProductosRoute: typeof ProductosRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -148,13 +135,6 @@ declare module '@tanstack/react-router' {
       path: '/nosotros'
       fullPath: '/nosotros'
       preLoaderRoute: typeof NosotrosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/energia-solar': {
-      id: '/energia-solar'
-      path: '/energia-solar'
-      fullPath: '/energia-solar'
-      preLoaderRoute: typeof EnergiaSolarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -199,7 +179,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   ContactoRoute: ContactoRoute,
-  EnergiaSolarRoute: EnergiaSolarRoute,
   NosotrosRoute: NosotrosRoute,
   ProductosRoute: ProductosRoute,
   BlogSlugRoute: BlogSlugRoute,

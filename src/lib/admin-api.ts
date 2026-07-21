@@ -10,6 +10,8 @@ export type PostSummary = {
 	publishedAt: string | null;
 	excerpt: string;
 	coverImage: string | null;
+	category: string | null;
+	tags: string[];
 };
 
 export type Post = PostSummary & {
@@ -22,6 +24,8 @@ export type PostInput = {
 	publishedAt?: string;
 	excerpt?: string;
 	coverImage?: string | null;
+	category: string;
+	tags?: string[];
 	body: string;
 	/** Presente al editar; ausente al crear. */
 	slug?: string;
@@ -76,16 +80,42 @@ export async function logout(): Promise<void> {
 
 /* ---- Posts ---- */
 
-export function listPosts(): Promise<PostSummary[]> {
-	return getJson<PostSummary[]>("/api/posts.php");
+function normalizeSummary(raw: Record<string, unknown>): PostSummary {
+	return {
+		title: String(raw.title ?? ""),
+		slug: String(raw.slug ?? ""),
+		publishedAt: (raw.publishedAt as string | null) ?? null,
+		excerpt: String(raw.excerpt ?? ""),
+		coverImage: (raw.coverImage as string | null) || null,
+		category: (raw.category as string | null) || null,
+		tags: Array.isArray(raw.tags) ? (raw.tags as string[]) : [],
+	};
 }
 
-export function getPost(slug: string): Promise<Post> {
-	return getJson<Post>(`/api/posts.php?slug=${encodeURIComponent(slug)}`);
+function normalizePost(raw: Record<string, unknown>): Post {
+	return {
+		...normalizeSummary(raw),
+		body: String(raw.body ?? ""),
+		updatedAt: (raw.updatedAt as string | null) ?? null,
+	};
+}
+
+export async function listPosts(): Promise<PostSummary[]> {
+	const data = await getJson<Record<string, unknown>[]>("/api/posts.php");
+	return data.map(normalizeSummary);
+}
+
+export async function getPost(slug: string): Promise<Post> {
+	const data = await getJson<Record<string, unknown>>(
+		`/api/posts.php?slug=${encodeURIComponent(slug)}`,
+	);
+	return normalizePost(data);
 }
 
 export function savePost(input: PostInput): Promise<Post> {
-	return sendJson<Post>("/api/posts.php", "POST", input);
+	return sendJson<Post>("/api/posts.php", "POST", input).then((p) =>
+		normalizePost(p as unknown as Record<string, unknown>),
+	);
 }
 
 export function deletePost(slug: string): Promise<{ ok: true }> {

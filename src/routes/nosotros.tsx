@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Award, MapPin, Target, Users } from "lucide-react";
-import storeImg from "@/assets/store-interior.jpg";
+import storeImg from "@/assets/storefront-electroluz.png";
 import { buildPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/nosotros")({
@@ -34,8 +34,8 @@ function Nosotros() {
 						Calidad, respaldo y <span className="text-gradient-fire">atención personalizada</span>
 					</h1>
 					<p className="mt-6 max-w-2xl text-lg text-white/80">
-						Somos Ferretería Electroluz, una empresa local comprometida con el desarrollo de La
-						Dorada y sus alrededores.
+						Somos Ferretería Electroluz, una empresa comprometida con el desarrollo de La Dorada y
+						la región.
 					</p>
 				</div>
 			</section>
@@ -44,22 +44,19 @@ function Nosotros() {
 				<div className="mx-auto max-w-7xl px-4 lg:px-8 grid gap-12 lg:grid-cols-2 items-center">
 					<img
 						src={storeImg}
-						alt="Tienda Electroluz"
+						alt="Fachada de Ferretería Electroluz"
 						loading="lazy"
 						width={1600}
 						height={900}
 						className="rounded-2xl shadow-card"
 					/>
 					<div>
-						<h2 className="text-3xl md:text-4xl font-extrabold">Nuestra historia</h2>
+						<h2 className="text-3xl md:text-4xl font-extrabold">Quiénes somos</h2>
 						<p className="mt-4 text-muted-foreground text-lg">
-							Nacimos con el propósito de ofrecer a nuestra comunidad una ferretería moderna donde
-							encontrar todo en un solo lugar: desde un tornillo hasta un sistema completo de
-							energía solar.
-						</p>
-						<p className="mt-4 text-muted-foreground text-lg">
-							Hoy somos referente en La Dorada, Caldas, gracias a la confianza de cientos de
-							clientes constructores, electricistas, empresas y hogares.
+							Nos caracterizamos por la mejora continua en la calidad de nuestros servicios con el
+							objeto de satisfacer las necesidades de nuestros clientes, dando prioridad a las
+							personas a fin de servir por vocación y velar por la integridad y el mejoramiento de
+							la calidad de vida de cada uno de nuestros colaboradores.
 						</p>
 					</div>
 				</div>

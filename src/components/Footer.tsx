@@ -21,7 +21,7 @@ export function Footer() {
 						<div className="font-extrabold text-lg">Ferreteria Electroluz</div>
 					</div>
 					<p className="text-sm text-white/70">
-						Todo para construcción, electricidad y energía solar en La Dorada, Caldas.
+						Todo para la construcción, refrigeración, electricidad y herramientas eléctricas en un solo lugar.
 					</p>
 				</div>
 				<div>
@@ -43,13 +43,13 @@ export function Footer() {
 							</Link>
 						</li>
 						<li>
-							<Link to="/productos" className="hover:text-white">
+							<Link to="/blog" className="hover:text-white">
 								Productos
 							</Link>
 						</li>
 						<li>
-							<Link to="/energia-solar" className="hover:text-white">
-								Energía Solar
+							<Link to="/productos" className="hover:text-white">
+								Categorías
 							</Link>
 						</li>
 						<li>

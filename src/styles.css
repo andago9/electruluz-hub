@@ -165,3 +165,20 @@
 .animate-shake {
 	animation: shake 0.4s ease-in-out;
 }
+
+@keyframes brands-marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+.animate-brands-marquee {
+	animation: brands-marquee 35s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+	.animate-brands-marquee {
+		animation: none;
+	}
+}

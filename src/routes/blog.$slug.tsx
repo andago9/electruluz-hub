@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, CalendarDays, LoaderCircle } from "lucide-react";
+import { ArrowLeft, CalendarDays, LoaderCircle, MessageCircle } from "lucide-react";
 import { MarkdocContent } from "@/components/MarkdocContent";
 import { getPostBySlug, withBase } from "@/lib/blog";
+import { getCategoryLabel, isBlogCategorySlug } from "@/lib/blog-taxonomies";
 import { buildPageHead } from "@/lib/seo";
+import { waLink } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/$slug")({
 	ssr: false,
@@ -75,14 +77,41 @@ function BlogPost() {
 				</Link>
 
 				<header className="mt-6">
-					{post.publishedAt && (
-						<span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
-							<CalendarDays className="h-4 w-4" />
-							{formatDate(post.publishedAt)}
-						</span>
-					)}
+					<div className="flex flex-wrap items-center gap-2">
+						{post.category && (
+							<Link
+								to="/blog"
+								search={
+									isBlogCategorySlug(post.category)
+										? { categoria: post.category }
+										: {}
+								}
+								className="rounded-md bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground hover:bg-secondary/80"
+							>
+								{getCategoryLabel(post.category)}
+							</Link>
+						)}
+						{post.publishedAt && (
+							<span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
+								<CalendarDays className="h-4 w-4" />
+								{formatDate(post.publishedAt)}
+							</span>
+						)}
+					</div>
 					<h1 className="mt-3 text-3xl md:text-5xl font-extrabold leading-tight">{post.title}</h1>
 					{post.excerpt && <p className="mt-4 text-lg text-muted-foreground">{post.excerpt}</p>}
+					{post.tags.length > 0 && (
+						<div className="mt-4 flex flex-wrap gap-2">
+							{post.tags.map((tag) => (
+								<span
+									key={tag}
+									className="rounded-md border border-border px-2 py-0.5 text-xs font-medium text-muted-foreground"
+								>
+									#{tag}
+								</span>
+							))}
+						</div>
+					)}
 				</header>
 
 				{post.coverImage && (
@@ -95,6 +124,18 @@ function BlogPost() {
 
 				<div className="mt-10">
 					<MarkdocContent body={post.body} />
+				</div>
+
+				<div className="mt-10 flex justify-end border-t border-border pt-8">
+					<a
+						href={waLink(`Hola, quiero comprar: ${post.title}`)}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold text-white shadow-glow hover:opacity-90"
+						style={{ backgroundColor: "var(--whatsapp)" }}
+					>
+						<MessageCircle className="h-5 w-5" /> Comprar por WhatsApp
+					</a>
 				</div>
 			</div>
 		</article>

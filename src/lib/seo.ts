@@ -56,6 +56,7 @@ function jsonLdScript(data: unknown): HeadScript {
 const DAY_MAP: Record<string, string[]> = {
 	"Lunes a Viernes": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
 	Sábados: ["Saturday"],
+	Festivos: ["PublicHolidays"],
 	Domingos: ["Sunday"],
 };
 

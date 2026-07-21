@@ -67,6 +67,11 @@ if ($slug !== '') {
         $canonical = $origin . '/blog/' . $post['slug'];
         $image = absolute_url($origin, $post['coverImage']);
         $headTags = seo_head_tags($title, $description, $canonical, $image, 'article');
+        $postTags = is_array($post['tags'] ?? null) ? $post['tags'] : [];
+        if ($postTags !== []) {
+            $keywords = implode(', ', array_map('strval', $postTags));
+            $headTags .= "\n" . '<meta name="keywords" content="' . h($keywords) . '">';
+        }
         $headTags .= "\n" . article_jsonld($post, $canonical, $image, $SITE);
 
         $parsedown = new Parsedown();

@@ -3,6 +3,7 @@ import { CalendarDays, LoaderCircle, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { deletePost, listPosts } from "@/lib/admin-api";
+import { getCategoryLabel } from "@/lib/blog-taxonomies";
 
 type Props = {
 	onNew: () => void;
@@ -25,6 +26,7 @@ export function PostList({ onNew, onEdit }: Props) {
 		mutationFn: (slug: string) => deletePost(slug),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["blog-posts"] });
 			toast.success("Artículo borrado.");
 		},
 		onError: (err) => toast.error(err instanceof Error ? err.message : "No se pudo borrar."),
@@ -60,9 +62,16 @@ export function PostList({ onNew, onEdit }: Props) {
 							</div>
 							<div className="min-w-0 flex-1">
 								<p className="truncate font-bold text-foreground">{post.title}</p>
-								<span className="mt-0.5 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-									<CalendarDays className="size-3.5" />
-									{formatDate(post.publishedAt)}
+								<span className="mt-0.5 inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+									<span className="inline-flex items-center gap-1.5">
+										<CalendarDays className="size-3.5" />
+										{formatDate(post.publishedAt)}
+									</span>
+									{post.category && (
+										<span className="rounded-md bg-secondary px-1.5 py-0.5 font-semibold text-secondary-foreground">
+											{getCategoryLabel(post.category)}
+										</span>
+									)}
 								</span>
 							</div>
 							<div className="flex shrink-0 items-center gap-1">

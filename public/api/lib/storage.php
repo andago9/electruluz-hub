@@ -68,13 +68,59 @@ function atomic_write(string $file, string $content): void
     send_error('No se pudo guardar el archivo.', 500);
 }
 
+/** Normaliza un tag a kebab-case (o null si queda vacío). */
+function normalize_tag(string $tag): ?string
+{
+    if (trim($tag) === '') {
+        return null;
+    }
+    $slug = slugify($tag);
+    return $slug !== '' ? $slug : null;
+}
+
+/**
+ * Normaliza lista de tags: trim, slugify, deduplicar, descartar vacíos.
+ * Acepta array o string separado por comas.
+ *
+ * @return list<string>
+ */
+function normalize_tags(mixed $raw): array
+{
+    if (is_string($raw)) {
+        $raw = preg_split('/\s*,\s*/', $raw) ?: [];
+    }
+    if (!is_array($raw)) {
+        return [];
+    }
+    $seen = [];
+    $out = [];
+    foreach ($raw as $item) {
+        if (!is_string($item) && !is_numeric($item)) {
+            continue;
+        }
+        $tag = normalize_tag((string) $item);
+        if ($tag === null || isset($seen[$tag])) {
+            continue;
+        }
+        $seen[$tag] = true;
+        $out[] = $tag;
+    }
+    return $out;
+}
+
 /** Serializa metadatos + cuerpo a texto .md. Usa JSON por campo (escape seguro). */
 function serialize_post(array $meta, string $body): string
 {
-    $keys = ['title', 'slug', 'publishedAt', 'excerpt', 'coverImage', 'updatedAt'];
+    $keys = ['title', 'slug', 'publishedAt', 'excerpt', 'coverImage', 'category', 'tags', 'updatedAt'];
     $lines = ['---'];
     foreach ($keys as $key) {
-        $value = $meta[$key] ?? '';
+        if ($key === 'tags') {
+            $value = $meta['tags'] ?? [];
+        } elseif ($key === 'category') {
+            $value = $meta['category'] ?? '';
+        } else {
+            $value = $meta[$key] ?? '';
+        }
         $lines[] = $key . ': ' . json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
     $lines[] = '---';
@@ -106,12 +152,16 @@ function read_post(string $slug): ?array
         return null;
     }
     [$meta, $body] = parse_post((string) file_get_contents($path));
+    $category = trim((string) ($meta['category'] ?? ''));
+    $tags = normalize_tags($meta['tags'] ?? []);
     return [
         'title' => (string) ($meta['title'] ?? $slug),
         'slug' => $slug,
         'publishedAt' => $meta['publishedAt'] ?? null,
         'excerpt' => (string) ($meta['excerpt'] ?? ''),
         'coverImage' => ($meta['coverImage'] ?? '') ?: null,
+        'category' => $category !== '' ? $category : null,
+        'tags' => $tags,
         'updatedAt' => $meta['updatedAt'] ?? null,
         'body' => $body,
     ];
@@ -126,6 +176,8 @@ function post_summary(array $post): array
         'publishedAt' => $post['publishedAt'],
         'excerpt' => $post['excerpt'],
         'coverImage' => $post['coverImage'],
+        'category' => $post['category'],
+        'tags' => $post['tags'] ?? [],
     ];
 }
 
@@ -155,12 +207,24 @@ function list_posts(): array
         return rebuild_index();
     }
     $data = json_decode((string) file_get_contents(INDEX_FILE), true);
-    return is_array($data) ? $data : [];
+    if (!is_array($data)) {
+        return [];
+    }
+    // Compatibilidad con índices antiguos sin category/tags.
+    return array_map(static function ($row) {
+        if (!is_array($row)) {
+            return $row;
+        }
+        $category = trim((string) ($row['category'] ?? ''));
+        $row['category'] = $category !== '' ? $category : null;
+        $row['tags'] = normalize_tags($row['tags'] ?? []);
+        return $row;
+    }, $data);
 }
 
 /**
- * Crea o edita un post. $input: title, publishedAt, excerpt, coverImage, body,
- * y slug (obligatorio al editar). Devuelve el post guardado.
+ * Crea o edita un post. $input: title, publishedAt, excerpt, coverImage,
+ * category, tags, body, y slug (obligatorio al editar). Devuelve el post guardado.
  */
 function save_post(array $input): array
 {
@@ -170,6 +234,13 @@ function save_post(array $input): array
         send_error('El título es obligatorio.', 400);
     }
     $body = (string) ($input['body'] ?? '');
+
+    $category = trim((string) ($input['category'] ?? ''));
+    if ($category === '' || !preg_match('/^[a-z0-9-]+$/', $category)) {
+        send_error('La categoría es obligatoria y debe ser un slug válido.', 400);
+    }
+
+    $tags = normalize_tags($input['tags'] ?? []);
 
     $existingSlug = isset($input['slug']) ? trim((string) $input['slug']) : '';
     if ($existingSlug !== '') {
@@ -197,6 +268,8 @@ function save_post(array $input): array
         'publishedAt' => $publishedAt,
         'excerpt' => trim((string) ($input['excerpt'] ?? '')),
         'coverImage' => trim((string) ($input['coverImage'] ?? '')),
+        'category' => $category,
+        'tags' => $tags,
         'updatedAt' => date('c'),
     ];
 

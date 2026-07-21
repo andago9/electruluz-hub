@@ -1,12 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ImagePlus, LoaderCircle, Trash2 } from "lucide-react";
-import { type FormEvent, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
+import { ArrowLeft, ImagePlus, LoaderCircle, Trash2, X } from "lucide-react";
+import {
+	type FormEvent,
+	type KeyboardEvent,
+	type ReactNode,
+	type RefObject,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { toast } from "sonner";
 import { MarkdownToolbar } from "@/components/admin/MarkdownToolbar";
 import { MarkdocContent } from "@/components/MarkdocContent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { getPost, type PostInput, savePost, uploadImage } from "@/lib/admin-api";
+import { BLOG_CATEGORIES, normalizeTag } from "@/lib/blog-taxonomies";
 
 type Props = {
 	slug: string | null; // null = nuevo
@@ -23,6 +39,9 @@ export function PostEditor({ slug, onDone }: Props) {
 	const [publishedAt, setPublishedAt] = useState(today());
 	const [excerpt, setExcerpt] = useState("");
 	const [coverImage, setCoverImage] = useState<string | null>(null);
+	const [category, setCategory] = useState("");
+	const [tags, setTags] = useState<string[]>([]);
+	const [tagDraft, setTagDraft] = useState("");
 	const [body, setBody] = useState("");
 	const [uploadingCover, setUploadingCover] = useState(false);
 	const bodyRef = useRef<HTMLTextAreaElement>(null);
@@ -41,18 +60,29 @@ export function PostEditor({ slug, onDone }: Props) {
 			setPublishedAt(p.publishedAt ?? today());
 			setExcerpt(p.excerpt);
 			setCoverImage(p.coverImage);
+			setCategory(p.category ?? "");
+			setTags(p.tags ?? []);
 			setBody(p.body);
 		}
 	}, [existing.data]);
 
 	const save = useMutation({
-		mutationFn: () => {
-			const input: PostInput = { title, publishedAt, excerpt, coverImage, body };
+		mutationFn: (payload: { tags: string[] }) => {
+			const input: PostInput = {
+				title,
+				publishedAt,
+				excerpt,
+				coverImage,
+				category,
+				tags: payload.tags,
+				body,
+			};
 			if (!isNew) input.slug = slug as string;
 			return savePost(input);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
+			queryClient.invalidateQueries({ queryKey: ["blog-posts"] });
 			toast.success(isNew ? "Artículo publicado." : "Cambios guardados.");
 			onDone();
 		},
@@ -71,13 +101,48 @@ export function PostEditor({ slug, onDone }: Props) {
 		}
 	}
 
+	function mergeTagsFromDraft(current: string[], draft: string): string[] {
+		const parts = draft.split(",").map((p) => p.trim()).filter(Boolean);
+		if (parts.length === 0) return current;
+		const next = [...current];
+		for (const part of parts) {
+			const normalized = normalizeTag(part);
+			if (normalized && !next.includes(normalized)) next.push(normalized);
+		}
+		return next;
+	}
+
+	function addTagFromDraft() {
+		if (!tagDraft.trim()) return;
+		setTags(mergeTagsFromDraft(tags, tagDraft));
+		setTagDraft("");
+	}
+
+	function handleTagKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+		if (e.key === "Enter" || e.key === ",") {
+			e.preventDefault();
+			addTagFromDraft();
+		} else if (e.key === "Backspace" && tagDraft === "" && tags.length > 0) {
+			setTags((prev) => prev.slice(0, -1));
+		}
+	}
+
 	function handleSubmit(e: FormEvent) {
 		e.preventDefault();
 		if (!title.trim()) {
 			toast.error("El título es obligatorio.");
 			return;
 		}
-		if (!save.isPending) save.mutate();
+		if (!category) {
+			toast.error("Elige una categoría.");
+			return;
+		}
+		const finalTags = mergeTagsFromDraft(tags, tagDraft);
+		if (tagDraft.trim()) {
+			setTags(finalTags);
+			setTagDraft("");
+		}
+		if (!save.isPending) save.mutate({ tags: finalTags });
 	}
 
 	if (!isNew && existing.isLoading) {
@@ -121,6 +186,56 @@ export function PostEditor({ slug, onDone }: Props) {
 							value={publishedAt}
 							onChange={(e) => setPublishedAt(e.target.value)}
 						/>
+					</Field>
+
+					<Field label="Categoría">
+						<Select value={category || undefined} onValueChange={setCategory}>
+							<SelectTrigger>
+								<SelectValue placeholder="Elige una categoría" />
+							</SelectTrigger>
+							<SelectContent>
+								{BLOG_CATEGORIES.map((c) => (
+									<SelectItem key={c.slug} value={c.slug}>
+										{c.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</Field>
+
+					<Field label="Tags">
+						<div className="space-y-2">
+							{tags.length > 0 && (
+								<div className="flex flex-wrap gap-1.5">
+									{tags.map((tag) => (
+										<span
+											key={tag}
+											className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs font-semibold text-secondary-foreground"
+										>
+											{tag}
+											<button
+												type="button"
+												onClick={() => setTags((prev) => prev.filter((t) => t !== tag))}
+												className="rounded-sm opacity-70 hover:opacity-100"
+												aria-label={`Quitar ${tag}`}
+											>
+												<X className="size-3" />
+											</button>
+										</span>
+									))}
+								</div>
+							)}
+							<Input
+								value={tagDraft}
+								onChange={(e) => setTagDraft(e.target.value)}
+								onKeyDown={handleTagKeyDown}
+								onBlur={() => {
+									if (tagDraft.trim()) addTagFromDraft();
+								}}
+								placeholder="Escribe y pulsa Enter o coma"
+							/>
+							<p className="text-xs text-muted-foreground">Opcional. Se guardan en minúsculas con guiones.</p>
+						</div>
 					</Field>
 
 					<Field label="Resumen">

@@ -10,7 +10,7 @@ import {
 	MessageCircle,
 	PaintBucket,
 	Shield,
-	Sun,
+	Snowflake,
 	Zap,
 } from "lucide-react";
 import logoImg from "@/assets/Horizotal-Logo.jpg";
@@ -60,6 +60,11 @@ const items = [
 		d: "Láminas, perfiles, masilla y accesorios para acabados modernos.",
 	},
 	{
+		i: Snowflake,
+		t: "Refrigeración",
+		d: "Aires acondicionados, neveras y equipos de refrigeración para hogar y comercio.",
+	},
+	{
 		i: PaintBucket,
 		t: "Pinturas y acabados",
 		d: "Vinilos, esmaltes, anticorrosivos y acabados decorativos.",
@@ -69,14 +74,13 @@ const items = [
 		t: "PVC y grifería",
 		d: "Tubería sanitaria, presión, accesorios y grifería para baño y cocina.",
 	},
-	{ i: Sun, t: "Energía solar", d: "Paneles, inversores, baterías e instalación profesional." },
 	{ i: Shield, t: "Seguridad industrial", d: "EPP, cascos, guantes, botas y dotación completa." },
 	{
 		i: Zap,
 		t: "Cercas eléctricas",
 		d: "Equipos energizadores, aisladores, alambre y servicio de instalación.",
 	},
-	{ i: Fan, t: "Ventiladores de techo", d: "Variedad de modelos modernos para hogar y oficina." },
+	{ i: Fan, t: "Ventiladores", d: "Variedad de modelos modernos para hogar y oficina." },
 ];
 
 function Productos() {

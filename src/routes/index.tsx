@@ -12,14 +12,14 @@ import {
 	MessageCircle,
 	PaintBucket,
 	Shield,
+	Snowflake,
 	Star,
-	Sun,
 	Truck,
 	Wrench,
 	Zap,
 } from "lucide-react";
-import heroImg from "@/assets/hero-industrial.jpg";
-import storeImg from "@/assets/store-interior.jpg";
+import heroImg from "@/assets/hero-store.png";
+import storefrontImg from "@/assets/storefront-electroluz.png";
 import { buildPageHead, buildWebSiteSchema } from "@/lib/seo";
 import { waLink } from "@/lib/site";
 
@@ -28,9 +28,9 @@ const RATING_STARS = [1, 2, 3, 4, 5] as const;
 export const Route = createFileRoute("/")({
 	head: () =>
 		buildPageHead({
-			title: "Ferretería Electroluz | La Dorada, Caldas — Eléctricos, construcción y solar",
+			title: "Ferretería Electroluz | La Dorada, Caldas — Eléctricos, construcción y refrigeración",
 			description:
-				"Materiales eléctricos, construcción, herramientas y energía solar en La Dorada. Cotización rápida por WhatsApp.",
+				"Materiales eléctricos, construcción, herramientas y refrigeración en La Dorada. Cotización rápida por WhatsApp.",
 			path: "/",
 			image: heroImg,
 			extraScripts: [
@@ -50,7 +50,7 @@ const categories = [
 	{ icon: Layers, name: "Drywall y Superboard", desc: "Para acabados y divisiones" },
 	{ icon: PaintBucket, name: "Pinturas y acabados", desc: "Variedad para interior y exterior" },
 	{ icon: Droplets, name: "PVC y grifería", desc: "Tubería, accesorios y baños" },
-	{ icon: Sun, name: "Energía solar", desc: "Paneles e instalación llave en mano" },
+	{ icon: Snowflake, name: "Refrigeración", desc: "Equipos, repuestos y accesorios" },
 	{ icon: Shield, name: "Seguridad industrial", desc: "EPP y dotación profesional" },
 ];
 
@@ -70,7 +70,7 @@ const testimonials = [
 	{
 		n: "Luisa P.",
 		r: "Cliente residencial",
-		t: "Me asesoraron muy bien con la instalación solar. Súper recomendados.",
+		t: "Me asesoraron muy bien con equipos de refrigeración. Súper recomendados.",
 	},
 	{
 		n: "Carlos R.",
@@ -79,7 +79,22 @@ const testimonials = [
 	},
 ];
 
-const brands = ["Schneider", "Legrand", "Bosch", "Stanley", "Truper", "Pavco", "Sika", "Eveready"];
+const brands = [
+	"Schneider",
+	"Legrand",
+	"Bosch",
+	"Stanley",
+	"Truper",
+	"Total",
+	"DeWalt",
+	"Pavco",
+	"Sika",
+	"Eveready",
+	"Sapolin",
+	"Midea",
+	"Alteza",
+	"KDK",
+];
 
 function Home() {
 	return (
@@ -108,8 +123,11 @@ function Home() {
 							La Dorada, Caldas
 						</span>
 						<h1 className="mt-5 text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05]">
-							Todo para <span className="text-gradient-fire">construcción, electricidad</span> y
-							energía solar en un solo lugar
+							Todo para la{" "}
+							<span className="text-gradient-fire">
+								construcción, refrigeración, electricidad
+							</span>{" "}
+							y herramientas eléctricas en un solo lugar
 						</h1>
 						<p className="mt-6 text-lg md:text-xl text-white/80 max-w-2xl">
 							Calidad, respaldo y atención personalizada. Cotiza al instante por WhatsApp y recibe
@@ -126,7 +144,7 @@ function Home() {
 								<MessageCircle className="h-5 w-5" /> Cotizar por WhatsApp
 							</a>
 							<Link
-								to="/productos"
+								to="/blog"
 								className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-bold text-brand-dark bg-gradient-fire hover:opacity-90"
 								style={{ color: "var(--brand-dark)" }}
 							>
@@ -210,35 +228,37 @@ function Home() {
 				</div>
 			</section>
 
-			{/* SOLAR BANNER */}
+			{/* REFRIGERACIÓN BANNER */}
 			<section className="relative overflow-hidden bg-gradient-hero">
 				<div className="mx-auto max-w-7xl px-4 lg:px-8 py-20 grid gap-10 lg:grid-cols-2 items-center">
 					<div>
 						<span className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white">
-							<Sun className="h-3.5 w-3.5" style={{ color: "var(--brand-yellow)" }} /> Tecnología
-							sostenible
+							<Snowflake className="h-3.5 w-3.5" style={{ color: "var(--brand-yellow)" }} />{" "}
+							Clima y frío
 						</span>
 						<h2 className="mt-4 text-3xl md:text-5xl font-extrabold text-white">
-							Soluciones en <span className="text-gradient-fire">energía solar</span> para hogar y
-							empresa
+							Soluciones en <span className="text-gradient-fire">refrigeración</span> para el hogar
+							y empresas
 						</h2>
 						<p className="mt-4 text-white/75 text-lg">
-							Reduce tu factura eléctrica hasta un 95% con paneles solares de última generación,
-							instalados por expertos.
+							Equipos, repuestos y accesorios de refrigeración con asesoría experta para tu
+							proyecto.
 						</p>
-						<Link
-							to="/energia-solar"
+						<a
+							href={waLink("Hola, me interesa cotizar productos de refrigeración")}
+							target="_blank"
+							rel="noopener noreferrer"
 							className="mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-4 font-bold text-brand-dark bg-gradient-solar hover:opacity-90"
 							style={{ color: "var(--brand-dark)" }}
 						>
-							Conocer más <ArrowRight className="h-5 w-5" />
-						</Link>
+							Cotizar ahora <ArrowRight className="h-5 w-5" />
+						</a>
 					</div>
 					<div className="relative">
 						<div className="absolute -inset-4 bg-gradient-fire opacity-30 blur-3xl rounded-full" />
 						<img
-							src={storeImg}
-							alt="Energía solar"
+							src={storefrontImg}
+							alt="Ferretería Electroluz — refrigeración"
 							loading="lazy"
 							width={1600}
 							height={900}
@@ -287,16 +307,20 @@ function Home() {
 			</section>
 
 			{/* BRANDS */}
-			<section className="py-12 bg-secondary">
+			<section className="py-12 bg-secondary overflow-hidden">
 				<div className="mx-auto max-w-7xl px-4 lg:px-8">
 					<p className="text-center text-xs font-bold uppercase tracking-widest text-muted-foreground mb-6">
 						Marcas que distribuimos
 					</p>
-					<div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
-						{brands.map((b) => (
+				</div>
+				<div className="relative">
+					<div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-secondary to-transparent md:w-24" />
+					<div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-secondary to-transparent md:w-24" />
+					<div className="flex w-max animate-brands-marquee hover:[animation-play-state:paused]">
+						{[...brands, ...brands].map((b, i) => (
 							<span
-								key={b}
-								className="text-xl md:text-2xl font-extrabold text-foreground/40 hover:text-foreground transition-colors"
+								key={`${b}-${i}`}
+								className="mx-8 shrink-0 text-xl md:text-2xl font-extrabold text-foreground/40 hover:text-foreground transition-colors md:mx-12"
 							>
 								{b}
 							</span>

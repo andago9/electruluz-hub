@@ -18,7 +18,8 @@ export const SITE = {
 	sameAs: [] as string[],
 	hours: [
 		{ d: "Lunes a Viernes", h: "7:00 AM – 6:00 PM" },
-		{ d: "Sábados", h: "7:00 AM – 1:00 PM" },
+		{ d: "Sábados", h: "7:00 AM – 12:30 PM" },
+		{ d: "Festivos", h: "7:00 AM – 12:00 PM" },
 		{ d: "Domingos", h: "Cerrado" },
 	],
 };

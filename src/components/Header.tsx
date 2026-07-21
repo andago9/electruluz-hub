@@ -7,9 +7,8 @@ import { SITE, waLink } from "@/lib/site";
 const nav = [
 	{ to: "/", label: "Inicio" },
 	{ to: "/nosotros", label: "Nosotros" },
-	{ to: "/productos", label: "Productos" },
-	{ to: "/energia-solar", label: "Energía Solar" },
-	{ to: "/blog", label: "Blog" },
+	{ to: "/blog", label: "Productos" },
+	{ to: "/productos", label: "Categorías" },
 	{ to: "/contacto", label: "Contacto" },
 ];
 
