@@ -18,12 +18,16 @@ import {
 	Wrench,
 	Zap,
 } from "lucide-react";
+import { useEffect } from "react";
 import heroImg from "@/assets/hero-store.png";
 import storefrontImg from "@/assets/storefront-electroluz.png";
 import { buildPageHead, buildWebSiteSchema } from "@/lib/seo";
 import { waLink } from "@/lib/site";
 
 const RATING_STARS = [1, 2, 3, 4, 5] as const;
+const SOCIABLEKIT_REVIEWS_SCRIPT =
+	"https://widgets.sociablekit.com/google-reviews/widget.js";
+const SOCIABLEKIT_EMBED_ID = "25699087";
 
 export const Route = createFileRoute("/")({
 	head: () =>
@@ -61,42 +65,40 @@ const benefits = [
 	{ icon: Truck, t: "Entrega rápida", d: "Despacho local en La Dorada" },
 ];
 
-const testimonials = [
-	{
-		n: "Andrés M.",
-		r: "Constructor",
-		t: "Excelente surtido y precios. Siempre encuentro lo que necesito para mis obras.",
-	},
-	{
-		n: "Luisa P.",
-		r: "Cliente residencial",
-		t: "Me asesoraron muy bien con equipos de refrigeración. Súper recomendados.",
-	},
-	{
-		n: "Carlos R.",
-		r: "Electricista",
-		t: "Mi ferretería de confianza en La Dorada. Atención de primera.",
-	},
-];
-
 const brands = [
-	"Schneider",
-	"Legrand",
-	"Bosch",
-	"Stanley",
-	"Truper",
-	"Total",
-	"DeWalt",
-	"Pavco",
-	"Sika",
-	"Eveready",
-	"Sapolin",
-	"Midea",
-	"Alteza",
-	"KDK",
+	{ name: "Schneider", logo: "/brands/schneider.png" },
+	{ name: "Legrand", logo: "/brands/legrand.png" },
+	{ name: "Bosch", logo: "/brands/bosch.png" },
+	{ name: "Stanley", logo: "/brands/stanley.png" },
+	{ name: "Truper", logo: "/brands/truper.png" },
+	{ name: "Total", logo: "/brands/total.png" },
+	{ name: "DeWalt", logo: "/brands/dewalt.png" },
+	{ name: "Pavco", logo: "/brands/pavco.png" },
+	{ name: "Sika", logo: "/brands/sika.png" },
+	{ name: "Eveready", logo: "/brands/eveready.png" },
+	{ name: "Sapolin", logo: "/brands/sapolin.png" },
+	{ name: "Midea", logo: "/brands/midea.png" },
+	{ name: "Alteza", logo: "/brands/alteza.png" },
+	{ name: "KDK", logo: "/brands/kdk.png" },
 ];
 
 function Home() {
+	useEffect(() => {
+		const existing = document.querySelector(
+			`script[src="${SOCIABLEKIT_REVIEWS_SCRIPT}"]`,
+		);
+		if (existing) {
+			existing.remove();
+		}
+		const script = document.createElement("script");
+		script.src = SOCIABLEKIT_REVIEWS_SCRIPT;
+		script.defer = true;
+		document.body.appendChild(script);
+		return () => {
+			script.remove();
+		};
+	}, []);
+
 	return (
 		<>
 			{/* HERO */}
@@ -268,7 +270,7 @@ function Home() {
 				</div>
 			</section>
 
-			{/* TESTIMONIALS */}
+			{/* GOOGLE REVIEWS */}
 			<section className="py-20">
 				<div className="mx-auto max-w-7xl px-4 lg:px-8">
 					<div className="text-center max-w-2xl mx-auto">
@@ -282,26 +284,11 @@ function Home() {
 							Lo que dicen nuestros clientes
 						</h2>
 					</div>
-					<div className="mt-12 grid gap-6 md:grid-cols-3">
-						{testimonials.map((t) => (
-							<div key={t.n} className="rounded-2xl border border-border bg-card p-6 shadow-card">
-								<div className="flex gap-1">
-									{RATING_STARS.map((star) => (
-										<Star
-											key={star}
-											className="h-4 w-4"
-											style={{ color: "var(--brand-yellow)" }}
-											fill="currentColor"
-										/>
-									))}
-								</div>
-								<p className="mt-4 text-foreground/85">"{t.t}"</p>
-								<div className="mt-4 pt-4 border-t border-border">
-									<div className="font-bold">{t.n}</div>
-									<div className="text-sm text-muted-foreground">{t.r}</div>
-								</div>
-							</div>
-						))}
+					<div className="mt-12">
+						<div
+							className="sk-ww-google-reviews"
+							data-embed-id={SOCIABLEKIT_EMBED_ID}
+						/>
 					</div>
 				</div>
 			</section>
@@ -316,14 +303,22 @@ function Home() {
 				<div className="relative">
 					<div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-secondary to-transparent md:w-24" />
 					<div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-secondary to-transparent md:w-24" />
-					<div className="flex w-max animate-brands-marquee hover:[animation-play-state:paused]">
+					<div className="flex w-max items-center animate-brands-marquee hover:[animation-play-state:paused]">
 						{[...brands, ...brands].map((b, i) => (
-							<span
-								key={`${b}-${i}`}
-								className="mx-8 shrink-0 text-xl md:text-2xl font-extrabold text-foreground/40 hover:text-foreground transition-colors md:mx-12"
+							<div
+								key={`${b.name}-${i}`}
+								className="mx-7 flex h-14 shrink-0 items-center justify-center md:mx-10 md:h-16"
 							>
-								{b}
-							</span>
+								<img
+									src={b.logo}
+									alt={b.name}
+									width={160}
+									height={64}
+									loading="lazy"
+									decoding="async"
+									className="h-10 w-auto max-w-[9rem] object-contain opacity-85 transition-opacity hover:opacity-100 md:h-12 md:max-w-[10rem]"
+								/>
+							</div>
 						))}
 					</div>
 				</div>
