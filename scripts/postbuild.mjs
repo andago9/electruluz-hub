@@ -3,7 +3,8 @@ import { join } from "node:path";
 
 const root = process.cwd();
 
-for (const dir of [".build", join("dist", "server")]) {
+// Solo limpiar SSR dentro de dist. Conservar .build/server para `vite preview`.
+for (const dir of [join("dist", "server")]) {
 	try {
 		rmSync(join(root, dir), { recursive: true, force: true });
 	} catch {
@@ -73,8 +74,8 @@ const htaccess = `# ============================================================
   RewriteRule ^blog/?$ blog.php [L]
   RewriteRule ^blog/[a-z0-9-]+/?$ blog.php [L]
 
-  # Servir directo assets, backend PHP e imágenes subidas
-  RewriteRule ^(assets|api|uploads)/ - [L]
+  # Servir directo assets, marcas, backend PHP e imágenes subidas
+  RewriteRule ^(assets|brands|api|uploads)/ - [L]
   RewriteCond %{REQUEST_URI} \\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|avif|woff2?|map|xml|txt)$ [NC]
   RewriteRule ^ - [L]
 

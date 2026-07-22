@@ -68,6 +68,7 @@ const benefits = [
 const brands = [
 	{ name: "Schneider", logo: "/brands/schneider.png" },
 	{ name: "Legrand", logo: "/brands/legrand.png" },
+	{ name: "Centelsa", logo: "/brands/centelsa.png" },
 	{ name: "Bosch", logo: "/brands/bosch.png" },
 	{ name: "Stanley", logo: "/brands/stanley.png" },
 	{ name: "Truper", logo: "/brands/truper.png" },

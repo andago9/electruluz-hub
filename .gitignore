@@ -32,6 +32,8 @@ dist-ssr
 public/*
 !public/api/
 !public/blog.php
+!public/brands/
+!public/brands/**
 !public/content/
 !public/uploads/
 # Datos generados en el servidor (NO versionar)
