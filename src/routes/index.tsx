@@ -128,7 +128,7 @@ function Home() {
 						<h1 className="mt-5 text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05]">
 							Todo para la{" "}
 							<span className="text-gradient-fire">
-								construcción, refrigeración, electricidad
+								construcción, refrigeración
 							</span>{" "}
 							y herramientas eléctricas en un solo lugar
 						</h1>

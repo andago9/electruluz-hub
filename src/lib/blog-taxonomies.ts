@@ -1,7 +1,7 @@
 /** Categorías fijas del blog (slug → etiqueta). */
 
 export const BLOG_CATEGORIES = [
-	{ slug: "energia-solar", label: "Energía solar" },
+	{ slug: "refrigeracion", label: "Refrigeración" },
 	{ slug: "electricidad", label: "Electricidad" },
 	{ slug: "iluminacion", label: "Iluminación" },
 	{ slug: "construccion", label: "Construcción" },
